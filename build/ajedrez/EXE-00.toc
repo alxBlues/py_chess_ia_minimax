@@ -171,7 +171,7 @@
  [],
  False,
  False,
- 1732926906,
+ 1732929523,
  [('run',
    '/Applications/XAMPP/xamppfiles/htdocs/py_chess_ia_minimax/venv/lib/python3.13/site-packages/PyInstaller/bootloader/Darwin-64bit/run',
    'EXECUTABLE')],

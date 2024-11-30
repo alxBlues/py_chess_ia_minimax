@@ -44,6 +44,18 @@ def traducir_coordenadas(coordenada):
     fila = int(coordenada[1]) - 1  # La fila coincide directamente con los índices de la matriz
     return fila, columna
 
+def validar_coordenada(coordenada):
+    """
+    Verifica si una coordenada está dentro del rango válido (A1-H8).
+    """
+    if len(coordenada) != 2:
+        return False
+    columna, fila = coordenada[0], coordenada[1]
+    if columna not in "ABCDEFGH":
+        return False
+    if not fila.isdigit() or not (1 <= int(fila) <= 8):
+        return False
+    return True
 
 def validar_movimiento(origen, destino, jugador):
     """
@@ -372,6 +384,9 @@ def simular_movimiento(tablero, origen, destino):
 # SOLO IA MINIMAX SIN PODA ALFA BETA
 # Modificación en `jugar_ajedrez` para usar `evaluacion`
 def jugar_ajedrez():
+    """
+    Controla el flujo del juego de ajedrez, alternando turnos entre blancas y negras.
+    """
     jugador = "blancas"
     imprimir_tablero()
 
@@ -382,16 +397,18 @@ def jugar_ajedrez():
         if jugador == "negras":
             turno_ia(tablero, jugador)  # Ahora pasa el tablero correctamente
         else:
-            origen = input("Selecciona una ficha para mover (ejemplo: E2) o escribe 'reiniciar': ").strip().upper()
+            while True:  # Bucle para asegurar que la entrada sea válida
+                origen = input("Selecciona una ficha para mover (ejemplo: E2) o escribe 'reiniciar': ").strip().upper()
 
-            if origen == "REINICIAR":
-                reiniciar_tablero()
-                imprimir_tablero()
-                continue
+                if origen == "REINICIAR":
+                    reiniciar_tablero()
+                    imprimir_tablero()
+                    continue
 
-            if len(origen) != 2 or not origen[0].isalpha() or not origen[1].isdigit():
-                print("Selección inválida.")
-                continue
+                if validar_coordenada(origen):
+                    break
+                else:
+                    print("Entrada inválida. Asegúrate de usar un formato como 'E2'.")
 
             movimientos_posibles = obtener_movimientos_posibles(origen, jugador)
             if not movimientos_posibles:
@@ -399,11 +416,14 @@ def jugar_ajedrez():
                 continue
 
             print(f"Movimientos posibles: {', '.join(movimientos_posibles)}")
-            destino = input("Selecciona el destino: ").strip().upper()
 
-            if destino not in movimientos_posibles:
-                print("Movimiento inválido.")
-                continue
+            while True:  # Bucle para validar el destino
+                destino = input("Selecciona el destino: ").strip().upper()
+
+                if validar_coordenada(destino) and destino in movimientos_posibles:
+                    break
+                else:
+                    print("Movimiento inválido. Selecciona un destino de la lista de movimientos posibles.")
 
             mover_pieza(origen, destino, jugador)
 
