@@ -250,7 +250,7 @@ def evaluacion(origen, jugador):
 
     return resultados
 
-# SOLO IA  MINIMAX SIN PODA ALFA BETA 
+# SOLO IA  MINIMAX CON PODA ALFA BETA 
 
 
 def obtener_piezas(jugador, tablero):
@@ -339,7 +339,7 @@ def turno_ia(tablero, jugador):
         movimientos = obtener_movimientos_posibles(pieza, jugador)
         print(f"Pieza: {pieza}, Movimientos: {movimientos}")
     
-    _, mejor_movimiento = minimax(tablero, profundidad=2, alpha=-math.inf, beta=math.inf, maximizando=True, jugador=jugador)
+    _, mejor_movimiento = minimax(tablero, profundidad=4, alpha=-math.inf, beta=math.inf, maximizando=True, jugador=jugador)
 
     if mejor_movimiento:
         origen, destino = mejor_movimiento
@@ -381,7 +381,7 @@ def simular_movimiento(tablero, origen, destino):
     nuevo_tablero[fila_ori][col_ori] = "."
     return nuevo_tablero
 
-# SOLO IA MINIMAX SIN PODA ALFA BETA
+# SOLO IA MINIMAX CON PODA ALFA BETA
 # Modificación en `jugar_ajedrez` para usar `evaluacion`
 def jugar_ajedrez():
     """
